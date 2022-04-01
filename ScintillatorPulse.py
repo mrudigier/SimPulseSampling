@@ -1,4 +1,8 @@
-"""Class of a detector pulse"""
+"""
+ Class for a detector pulse (Voltage as function of time)
+ Init with "decaytime", "risetime", "amplitude constant", "baseline",
+ and a time offset.
+ """
 import math
 import numpy as np
 
@@ -78,8 +82,6 @@ class ScintillatorPulse:
          print("got t10!")
        elif (value > peak[1]*0.9) :
          return (t - t10)
-
-
 
   def getArea(self, tLow=0.0, tHigh=0.0, nSamples=0):
     area = 0.0
