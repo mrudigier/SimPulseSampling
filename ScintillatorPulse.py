@@ -54,34 +54,26 @@ class ScintillatorPulse:
     step = (peak[0] - self.limitL)/10000
     havet10 = 0
     t10 = 0.0
-    print(peak)
-    print(peak[0], self.limitL)
     for t in np.arange(self.limitL, peak[0],step):
       value = self.__pulseShape(t)
-      print("havet10 {}, t {} -- value {}".format(havet10, t, value) )
       if (havet10 != 0 and value > peak[1]*0.1) :
         havet10 = 1
         t10 = t
-        print("got t10!")
       elif (value > peak[1]*0.9) :
         return (t - t10)
 
-   def getRealRisetime(self):
+   def getRealDecayTime(self):
      peak = self.getMax()
-     step = (peak[0] - self.limitL)/10000
-     havet10 = 0
-     t10 = 0.0
-     print(peak)
-     print(peak[0], self.limitL)
-     for t in np.arange(self.limitL, peak[0],step):
+     step = (self.limitR - peak[0])/10000
+     havet90 = 0
+     t90 = 0.0
+     for t in np.arange(peak[0], self.limitR, step):
        value = self.__pulseShape(t)
-       print("havet10 {}, t {} -- value {}".format(havet10, t, value) )
-       if (havet10 != 0 and value > peak[1]*0.1) :
-         havet10 = 1
-         t10 = t
-         print("got t10!")
-       elif (value > peak[1]*0.9) :
-         return (t - t10)
+       if (havet90 != 0 and value < peak[1]*0.9) :
+         havet90 = 1
+         t90 = t
+       elif (value < peak[1]*0.1) :
+         return (t - t90)
 
   def getArea(self, tLow=0.0, tHigh=0.0, nSamples=0):
     area = 0.0
